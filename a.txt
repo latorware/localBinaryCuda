@@ -1,0 +1,14 @@
+Reading image...
+Image Read. Width : 4000, Height : 6000, nComp: 3
+Image Read in = 0.43678[seconds]
+What do you want to do? (0) Print image as matrix of numbers.    (1)RGB to GRASCALE     (2)GLOBAL BINARITZATION 
+ (3)MEAN local binaritzation     (4)NIBLACK'S binaritzation     (5)SAUVOLA'S binaritzation  
+ (6)BERNSEN'S binaritzation     (7)0TSU'S binaritzation
+GLOBAL BINARITZATION WAS PICKED
+Introduce the threshold as a 0-255 integer:
+ALLOCATING SPACE FOR NEW IMAGE... 
+ALLOCATED SPACE IN = 3.5e-05[seconds]
+CONVERTING TO GRAYSCALE and BINARITZATING (at the same time)... 
+CONVERTED TO GRAYSCALE AND BINARITZATED in = 0.076639[seconds]
+WRITING IMAGE... 
+IMAGE WRITTEN IN = 0.738589[seconds]
