@@ -1,2 +1,8 @@
 ﻿  Source.cpp
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(58,103): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(88,32): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(92,32): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(123,103): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(181,32): warning C4309: '=': truncation of constant value
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(208,9): warning C4101: 'tamanyFinestraLLiscant': unreferenced local variable
   CPUbinaritzation3values.vcxproj -> C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\x64\Debug\CPUbinaritzation3values.exe

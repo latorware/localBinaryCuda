@@ -106,6 +106,99 @@ void globalBinaritzation(unsigned char* image, int width, int height, char* file
 }
 
 
+void meanBinaritzation(unsigned char* image, int width, int height, char* fileOUT, chrono::steady_clock::time_point begin, chrono::steady_clock::time_point end, int tamanyFinestra)
+{
+    printf("ALLOCATING SPACE FOR NEW IMAGE... \n");
+    begin = chrono::steady_clock::now();
+    char* imageOUT = (char*)malloc(width * height * sizeof(char));
+    char* imageFinalOUT = (char*)malloc(width * height * sizeof(char));
+
+
+    end = chrono::steady_clock::now();
+    cout << "ALLOCATED SPACE IN = " << (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0 << "[seconds]" << std::endl;
+
+    printf("CONVERTING TO GRAYSCALE... \n");
+    begin = chrono::steady_clock::now();
+    for (int i = 0; i < width * height; i++) {
+        imageOUT[i] = (((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]));
+    }
+    end = chrono::steady_clock::now();
+    cout << "CONVERTED TO GRAYSCALE IN = " << (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0 << "[seconds]" << std::endl;
+
+
+
+    printf("BINARITZATING... \n");
+    begin = chrono::steady_clock::now();
+    for (int i = 0; i < width * height; i++) {
+        int lenght = 0; int mean = 0;
+
+        int fila = i / width;
+        //int columna = i % width;
+        for (int j = 0; j < tamanyFinestra; j++) {
+            if ((i + j) / width == fila) {
+
+                for (int k = 0; k < tamanyFinestra; k++) {
+                    if (((i+j)+k*width) / width < height) {
+                        lenght++;
+                        mean += imageOUT[(i + j) + k * width];
+                    }
+
+                    if ((((i + j) - (k * width)) / (width*1.0)) >= 0.0 ) {
+                        lenght++;
+                        mean += imageOUT[(i + j) - (k * width)];
+                    }
+                }
+
+
+            }
+
+            if (((i - j) / width == fila) && (i-j>=0)) {
+
+                for (int k = 0; k < tamanyFinestra; k++) {
+                    if (((i - j) + k * width) / width < height) {
+                        lenght++;
+                        mean += imageOUT[(i - j) + k * width];
+                    }
+
+                    if ((((i - j) - (k * width)) / (width * 1.0)) >= 0.0) {
+                        lenght++;
+                        mean += imageOUT[(i - j) - (k * width)];
+                    }
+                }
+
+            }
+
+
+        }
+
+
+
+        mean = mean / lenght;
+        if (imageOUT[i] <= mean) {
+            imageFinalOUT[i] = 0;
+        }
+        else {
+            imageFinalOUT[i] = 255;
+
+        }
+
+      
+
+
+    }
+    end = chrono::steady_clock::now();
+    cout << "BINARITZATED in = " << (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0 << "[seconds]" << std::endl;
+
+
+    int pixelWidthOUT = 1;
+
+    printf("WRITING IMAGE... \n");
+    begin = chrono::steady_clock::now();
+    //ESCRITURA DE LA IMAGEN EN SECUENCIAL
+    stbi_write_png(fileOUT, width, height, pixelWidthOUT, imageFinalOUT, 0);
+    end = chrono::steady_clock::now();
+    cout << "IMAGE WRITTEN IN = " << (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0 << "[seconds]" << std::endl;
+}
 
 int main(int argc, char** argv) {
 
@@ -156,6 +249,12 @@ int main(int argc, char** argv) {
     }
     else if (option == 3)
     {
+        cout << "MEAN local binaritzation WAS PICKED" << endl;
+        cout << "Introduce the window size as an integer (it has to be smaller than the width and height of the image):" << endl;
+        int tamanyFinestra;
+        cin >> tamanyFinestra;
+        meanBinaritzation(image, width, height, fileOUT, begin, end, tamanyFinestra);
+
 
     }
     else if (option == 4)
