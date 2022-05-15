@@ -1,12 +1,13 @@
 ﻿  Source.cpp
-C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(58,103): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
-C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(88,32): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
-C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(92,32): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
-C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(123,103): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
-C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(181,32): warning C4309: '=': truncation of constant value
-C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(208,9): warning C4101: 'tamanyFinestraLLiscant': unreferenced local variable
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(59,103): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(89,32): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(93,32): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(124,103): warning C4244: '=': conversion from 'float' to 'char', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(187,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(192,32): warning C4309: '=': truncation of constant value
+C:\Users\lator\Documents\GitHub\localBinaryCuda\CPUbinaritzation3values\Source.cpp(219,9): warning C4101: 'tamanyFinestraLLiscant': unreferenced local variable
   Generating code
-  2 of 195 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+  1 of 196 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     9 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

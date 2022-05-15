@@ -8,6 +8,7 @@
 #include "stb_image_write.h"
 #include <malloc.h>
 #include <chrono>
+#include <math.h>
 using namespace std; 
 
 //CLOCK SHIT
@@ -106,7 +107,7 @@ void globalBinaritzation(unsigned char* image, int width, int height, char* file
 }
 
 
-void meanBinaritzation(unsigned char* image, int width, int height, char* fileOUT, chrono::steady_clock::time_point begin, chrono::steady_clock::time_point end, int tamanyFinestra)
+void NICKBinaritzation(unsigned char* image, int width, int height, char* fileOUT, chrono::steady_clock::time_point begin, chrono::steady_clock::time_point end, int tamanyFinestra, float k)
 {
     printf("ALLOCATING SPACE FOR NEW IMAGE... \n");
     begin = chrono::steady_clock::now();
@@ -129,8 +130,10 @@ void meanBinaritzation(unsigned char* image, int width, int height, char* fileOU
 
     printf("BINARITZATING... \n");
     begin = chrono::steady_clock::now();
+    tamanyFinestra = tamanyFinestra / 2; 
     for (int i = 0; i < width * height; i++) {
-        int lenght = 0; int mean = 0;
+        int pixelsInWindow = 0; int mean = 0; int sumSquareIntensities = 0; int temp; 
+        float threshold; 
 
         int fila = i / width;
         //int columna = i % width;
@@ -139,13 +142,17 @@ void meanBinaritzation(unsigned char* image, int width, int height, char* fileOU
 
                 for (int k = 0; k < tamanyFinestra; k++) {
                     if (((i+j)+k*width) / width < height) {
-                        lenght++;
-                        mean += imageOUT[(i + j) + k * width];
+                        pixelsInWindow++;
+                        temp = imageOUT[(i + j) + k * width];
+                        mean += temp;   
+                        sumSquareIntensities += temp * temp; 
                     }
 
                     if ((((i + j) - (k * width)) / (width*1.0)) >= 0.0 ) {
-                        lenght++;
-                        mean += imageOUT[(i + j) - (k * width)];
+                        pixelsInWindow++;
+                        temp = imageOUT[(i + j) - (k * width)];
+                        mean += temp; 
+                        sumSquareIntensities += temp * temp;
                     }
                 }
 
@@ -156,13 +163,17 @@ void meanBinaritzation(unsigned char* image, int width, int height, char* fileOU
 
                 for (int k = 0; k < tamanyFinestra; k++) {
                     if (((i - j) + k * width) / width < height) {
-                        lenght++;
-                        mean += imageOUT[(i - j) + k * width];
+                        pixelsInWindow++;
+                        temp = imageOUT[(i - j) + k * width];
+                        mean += temp; 
+                        sumSquareIntensities += temp * temp;
                     }
 
                     if ((((i - j) - (k * width)) / (width * 1.0)) >= 0.0) {
-                        lenght++;
-                        mean += imageOUT[(i - j) - (k * width)];
+                        pixelsInWindow++;
+                        temp = imageOUT[(i - j) - (k * width)];
+                        mean += temp; 
+                        sumSquareIntensities += temp * temp;
                     }
                 }
 
@@ -172,9 +183,9 @@ void meanBinaritzation(unsigned char* image, int width, int height, char* fileOU
         }
 
 
-
-        mean = mean / lenght;
-        if (imageOUT[i] <= mean) {
+        mean = mean / pixelsInWindow;
+        threshold = (mean)+((k) * (sqrt((sumSquareIntensities - (mean * mean)) / (pixelsInWindow)))); 
+        if (imageOUT[i] <= threshold) {
             imageFinalOUT[i] = 0;
         }
         else {
@@ -226,7 +237,7 @@ int main(int argc, char** argv) {
 
 
     //What do you want to do
-    cout << "What do you want to do? (0) Print image as matrix of numbers.    (1)RGB to GRASCALE     (2)GLOBAL BINARITZATION \n (3)MEAN local binaritzation     (4)NIBLACK'S binaritzation     (5)SAUVOLA'S binaritzation  \n (6)BERNSEN'S binaritzation     (7)0TSU'S binaritzation" << endl; 
+    cout << "What do you want to do? (0) Print image as matrix of numbers.    (1)RGB to GRASCALE     (2)GLOBAL BINARITZATION \n (3)NICK local binaritzation" << endl; 
     int option; 
     cin >> option; 
 
@@ -249,28 +260,28 @@ int main(int argc, char** argv) {
     }
     else if (option == 3)
     {
-        cout << "MEAN local binaritzation WAS PICKED" << endl;
-        cout << "Introduce the window size as an integer (it has to be smaller than the width and height of the image):" << endl;
+        cout << "NICK local binaritzation WAS PICKED" << endl;
+        cout << "Introduce the width size of the square window as an integer (it has to be smaller than the width and height of the image AND HAS TO BE AN EVEN NUMBER):" << endl;
         int tamanyFinestra;
         cin >> tamanyFinestra;
-        meanBinaritzation(image, width, height, fileOUT, begin, end, tamanyFinestra);
+        while (tamanyFinestra % 2 != 0)
+        {
+            cout << "ERROR, window size has to be an even number. Try it again..." << endl; 
+            cin >> tamanyFinestra;
+        }
+        cout << "You've chosen window size: " << tamanyFinestra << " x " << tamanyFinestra << endl; 
+        cout << "Introduce the k paramater (it has to be between [-0.2,-0.1]):" << endl;
+        float k; 
+        cin >> k; 
+        while ((k < -0.201) || (k > -0.099))
+        {
+            //cout << k << endl; 
+            cout << "ERROR, k has to be between [-0.2, -0.1]. Try it again..." << endl;
+            cin >> k;
+        }
+        cout << "You've chosen k= " << k << endl;
+        NICKBinaritzation(image, width, height, fileOUT, begin, end, tamanyFinestra, k);
 
-
-    }
-    else if (option == 4)
-    {
-
-    }
-    else if (option == 5)
-    {
-
-    }
-    else if (option == 6)
-    {
-
-    }
-    else if (option == 7)
-    {
 
     }
     
