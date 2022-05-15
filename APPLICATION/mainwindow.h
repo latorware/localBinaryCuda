@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-//#include <processor.h>
+//#include "processor.h"
 
 namespace Ui {
 class MainWindow;
