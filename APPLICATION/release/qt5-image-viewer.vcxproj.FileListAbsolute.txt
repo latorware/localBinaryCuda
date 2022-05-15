@@ -1,0 +1,2 @@
+C:\Users\lator\Desktop\a\release\qt5-image-viewer.exe
+C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\release\qt5-image-viewer.exe
