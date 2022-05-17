@@ -73,12 +73,18 @@ void MainWindow::onPressLoadImage()
         return;
 
     QImageReader reader(qStrFilePath);
+    bool canRead; 
     if (!reader.canRead())
     {
+        canRead = false;
         QMessageBox msgBox;
         msgBox.setText("Cannot read file");
         msgBox.exec();
         return;
+    }
+    else
+    {
+        canRead = true; 
     }
     if (!m_graphicsScene->sceneRect().isEmpty())
     {
@@ -89,18 +95,18 @@ void MainWindow::onPressLoadImage()
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
 
     ui->m_graphicsView->viewFit();
-
+    
     //ui->statusBar->showMessage("image loaded", 0);
-    if (reader.canRead())
+    if (canRead)
     {
         ui->label->setDisabled(false);
         ui->btnFitWindow->setDisabled(false);
         ui->textBrowser->append("image loaded in the visualizer");
     }
-
+    
     if (myProcessor->ReadFile(qStrFilePath.toStdString()) == 0)
     {
-
+        
 
         ui->grayscale->setDisabled(false);
         ui->globalBinarize->setDisabled(false);
@@ -115,6 +121,7 @@ void MainWindow::onPressLoadImage()
         ui->evenNumber->setDisabled(false);
         ui->kText->setDisabled(false);
     }
+    
 }
 /*
 void MainWindow::onPressSaveImage()
@@ -181,6 +188,14 @@ void MainWindow::onkSilderChanged(int newValue)
 
 void MainWindow::onGrayscaleClicked()
 {
+    string path = myProcessor->RGBtoGRAYSCALE(); 
+    ui->textBrowser->append("Opening Grayscaled image in the visualizer");
+    m_graphicsScene->clear();
+    QImageReader reader(QString::fromStdString(path));
+    QImage qimg = reader.read();
+    m_graphicsScene->setSceneRect(qimg.rect());
+    m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
+    ui->textBrowser->append("Grayscaled image opened in the visualizer");
 }
 
 void MainWindow::onGlobalThresholdSliderChanged(int newValue)
@@ -190,6 +205,14 @@ void MainWindow::onGlobalThresholdSliderChanged(int newValue)
 
 void MainWindow::onGlobalBinarizeClicked()
 {
+    string path = myProcessor->globalBinaritzation(ui->globalThresholdSlider->value());
+    ui->textBrowser->append("Opening Globally Binarized image in the visualizer");
+    m_graphicsScene->clear();
+    QImageReader reader(QString::fromStdString(path));
+    QImage qimg = reader.read();
+    m_graphicsScene->setSceneRect(qimg.rect());
+    m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
+    ui->textBrowser->append("Globally Binarized image opened in the visualizer");
 }
 
 void MainWindow::onNickGPUClicked()
@@ -198,4 +221,13 @@ void MainWindow::onNickGPUClicked()
 
 void MainWindow::onNickCPUClicked()
 {
+    string path = myProcessor->NICKBinaritzationCPU(ui->windowSizeSlider->value(), (float)( (ui->kSlider->value())  / 100.f) );
+    ui->textBrowser->append("Opening Globally Binarized image in the visualizer");
+    m_graphicsScene->clear();
+    QImageReader reader(QString::fromStdString(path));
+    QImage qimg = reader.read();
+    m_graphicsScene->setSceneRect(qimg.rect());
+    m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
+    ui->textBrowser->append("Globally Binarized image opened in the visualizer");
+
 }

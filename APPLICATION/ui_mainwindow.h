@@ -58,7 +58,7 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(1053, 1600);
-        MainWindow->setMinimumSize(QSize(0, 1100));
+        MainWindow->setMinimumSize(QSize(0, 1300));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout_2 = new QHBoxLayout(centralWidget);
@@ -183,6 +183,7 @@ public:
 
         textBrowser = new QTextBrowser(centralWidget);
         textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
+        textBrowser->setMinimumSize(QSize(0, 300));
         textBrowser->setMaximumSize(QSize(16777215, 100));
         textBrowser->setBaseSize(QSize(0, 100));
         textBrowser->setAcceptDrops(true);

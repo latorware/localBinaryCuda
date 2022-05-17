@@ -24,10 +24,10 @@ public:
 
 	processor(QTextBrowser* outputDisplay);
 	int ReadFile(string imagePath); 
-	void printImage3Color(); 
-	void RGBtoGRAYSCALE(); 
-	void globalBinaritzation(int threshold); 
-	void NICKBinaritzationCPU(int tamanyFinestra, float k); 
+	//void printImage3Color(); 
+	string RGBtoGRAYSCALE(); 
+	string globalBinaritzation(int threshold); 
+	string NICKBinaritzationCPU(int tamanyFinestra, float k); 
 
 
 
@@ -37,7 +37,7 @@ private:
 
 	//bool imageLoaded; 
 
-	char* fileIN, * fileOUT;
+	string fileOUT;
 	unsigned char* image;
 	int width, height, pixelWidth; //meta info de la imagen
 	int tamanyFinestraLLiscant;
