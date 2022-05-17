@@ -41,7 +41,10 @@ int processor::ReadFile(string imagePath)
 	outputDisplay->append(QString::fromStdString(string(std::format("Image Read in the processor in = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
 
     size_t lastindex = imagePath.find_last_of(".");
-    fileOUT = (imagePath.substr(0, lastindex)); 
+    string fileOUT = (imagePath.substr(0, lastindex)); 
+    fileOUTGRAYSCALED = fileOUT + "GRAYSCALED.png";
+    fileOUTGLOBALBINARITZATION = fileOUT + "GLOBALBINARIZED.png";
+    fileOUTCPUNICK = fileOUT + "NICKCPUBINARITZATED.png";
 	
 	return 0;
 
@@ -76,12 +79,11 @@ string processor::RGBtoGRAYSCALE()
     outputDisplay->append("WRITING IMAGE...");
     begin = chrono::steady_clock::now();
     //ESCRITURA DE LA IMAGEN EN SECUENCIAL
-    fileOUT = fileOUT + "GRAYSCALED.png";
-    stbi_write_png(fileOUT.c_str(), width, height, pixelWidthOUT, imageOUT, 0);
+    stbi_write_png(fileOUTGRAYSCALED.c_str(), width, height, pixelWidthOUT, imageOUT, 0);
     end = chrono::steady_clock::now();
     outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
-    outputDisplay->append(QString::fromStdString(string(std::format("Grayscaled image saved in: {}", fileOUT))));
-    return fileOUT; 
+    outputDisplay->append(QString::fromStdString(string(std::format("Grayscaled image saved in: {}", fileOUTGRAYSCALED))));
+    return fileOUTGRAYSCALED;
 
 }
 
@@ -121,12 +123,11 @@ string processor::globalBinaritzation(int threshold)
     outputDisplay->append("WRITING IMAGE...");
     begin = chrono::steady_clock::now();
     //ESCRITURA DE LA IMAGEN EN SECUENCIAL
-    fileOUT = fileOUT + "GLOBALBINARIZED.png";
-    stbi_write_png(fileOUT.c_str(), width, height, pixelWidthOUT, imageOUT, 0);
+    stbi_write_png(fileOUTGLOBALBINARITZATION.c_str(), width, height, pixelWidthOUT, imageOUT, 0);
     end = chrono::steady_clock::now();
     outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
-    outputDisplay->append(QString::fromStdString(string(std::format("Globally Binarized image saved in: {}", fileOUT))));
-    return fileOUT; 
+    outputDisplay->append(QString::fromStdString(string(std::format("Globally Binarized image saved in: {}", fileOUTGLOBALBINARITZATION))));
+    return fileOUTGLOBALBINARITZATION;
 }
 
 
@@ -229,12 +230,12 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 
     int pixelWidthOUT = 1;
 
-    printf("WRITING IMAGE... \n");
+    outputDisplay->append("WRITING IMAGE...");
     begin = chrono::steady_clock::now();
     //ESCRITURA DE LA IMAGEN EN SECUENCIAL
-    fileOUT = fileOUT + "NICKCPUBINARITZATED.png";
-    stbi_write_png(fileOUT.c_str(), width, height, pixelWidthOUT, imageFinalOUT, 0);
+    stbi_write_png(fileOUTCPUNICK.c_str(), width, height, pixelWidthOUT, imageFinalOUT, 0);
     end = chrono::steady_clock::now();
-    cout << "IMAGE WRITTEN IN = " << (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0 << "[seconds]" << std::endl;
-    return fileOUT; 
+    outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
+    outputDisplay->append(QString::fromStdString(string(std::format("Nick cpu locally Binarized image saved in: {}", fileOUTCPUNICK))));
+    return fileOUTCPUNICK;
 }

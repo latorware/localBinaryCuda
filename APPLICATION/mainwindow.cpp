@@ -122,6 +122,7 @@ void MainWindow::onPressLoadImage()
         ui->kText->setDisabled(false);
     }
     
+    ui->textBrowser->append("ready");
 }
 /*
 void MainWindow::onPressSaveImage()
@@ -213,6 +214,7 @@ void MainWindow::onGlobalBinarizeClicked()
     m_graphicsScene->setSceneRect(qimg.rect());
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
     ui->textBrowser->append("Globally Binarized image opened in the visualizer");
+    ui->textBrowser->append("ready");
 }
 
 void MainWindow::onNickGPUClicked()
@@ -222,12 +224,13 @@ void MainWindow::onNickGPUClicked()
 void MainWindow::onNickCPUClicked()
 {
     string path = myProcessor->NICKBinaritzationCPU(ui->windowSizeSlider->value(), (float)( (ui->kSlider->value())  / 100.f) );
-    ui->textBrowser->append("Opening Globally Binarized image in the visualizer");
+    ui->textBrowser->append("Opening Nick cpu Binarized image in the visualizer");
     m_graphicsScene->clear();
     QImageReader reader(QString::fromStdString(path));
     QImage qimg = reader.read();
     m_graphicsScene->setSceneRect(qimg.rect());
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
-    ui->textBrowser->append("Globally Binarized image opened in the visualizer");
+    ui->textBrowser->append("Nick CPU binarized image opened in the visualizer");
+    ui->textBrowser->append("ready");
 
 }

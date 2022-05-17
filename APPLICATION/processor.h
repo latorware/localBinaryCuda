@@ -37,7 +37,9 @@ private:
 
 	//bool imageLoaded; 
 
-	string fileOUT;
+	string fileOUTGRAYSCALED;
+	string fileOUTGLOBALBINARITZATION;
+	string fileOUTCPUNICK;
 	unsigned char* image;
 	int width, height, pixelWidth; //meta info de la imagen
 	int tamanyFinestraLLiscant;
