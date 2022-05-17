@@ -1,0 +1,9 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'c:/Users/lator/Documents/GitHub/localBinaryCuda/HassanNajafi/CUDA-Nick-Local-Image-Thresholding-master'
+make: Leaving directory 'c:/Users/lator/Documents/GitHub/localBinaryCuda/HassanNajafi/CUDA-Nick-Local-Image-Thresholding-master'
+ 
+Makefile:12: ../../common/common.mk: No such file or directory
+make: *** No rule to make target '../../common/common.mk'.
+make: Failed to remake makefile '../../common/common.mk'.
+make: *** No targets.  Stop.
+

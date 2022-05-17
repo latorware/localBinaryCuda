@@ -79,4 +79,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NickGPU.cuh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="NickGPU.cu">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

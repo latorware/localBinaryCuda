@@ -113,7 +113,7 @@ void MainWindow::onPressLoadImage()
         ui->globalThresholdSlider->setDisabled(false);
         ui->NickGPU->setDisabled(false);
         ui->NickCPU->setDisabled(false);
-        ui->NickGPU->setStyleSheet("background-color: rgb(0, 255, 0)");
+        ui->NickGPU->setStyleSheet("background-color: rgb(118, 185, 0)");
         ui->windowSizeSlider->setDisabled(false);
         ui->kSlider->setDisabled(false);
         ui->GlobalThresholdText->setDisabled(false);

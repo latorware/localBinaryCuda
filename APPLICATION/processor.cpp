@@ -1,5 +1,8 @@
 #include "processor.h"
 
+#define NICKGPU_IMPLEMENTATION
+#include "NickGPU.cuh"
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "./Lib/stb_image.h"
@@ -83,6 +86,8 @@ string processor::RGBtoGRAYSCALE()
     end = chrono::steady_clock::now();
     outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
     outputDisplay->append(QString::fromStdString(string(std::format("Grayscaled image saved in: {}", fileOUTGRAYSCALED))));
+    free(imageOUT); 
+    Wrapper::wrapper();
     return fileOUTGRAYSCALED;
 
 }
@@ -127,6 +132,7 @@ string processor::globalBinaritzation(int threshold)
     end = chrono::steady_clock::now();
     outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
     outputDisplay->append(QString::fromStdString(string(std::format("Globally Binarized image saved in: {}", fileOUTGLOBALBINARITZATION))));
+    free(imageOUT);
     return fileOUTGLOBALBINARITZATION;
 }
 
@@ -237,5 +243,6 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
     end = chrono::steady_clock::now();
     outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
     outputDisplay->append(QString::fromStdString(string(std::format("Nick cpu locally Binarized image saved in: {}", fileOUTCPUNICK))));
+    free(imageOUT);
     return fileOUTCPUNICK;
 }
