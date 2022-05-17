@@ -1,12 +1,8 @@
 ﻿  Reading Qt configuration (C:/Qt/5.15.2/msvc2019_64/bin/qmake)
   Generate moc_predefs.h
 C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\Msbuild\Microsoft\VC\v160\Microsoft.CppCommon.targets(241,5): warning MSB8064: Custom build for item "release\moc_predefs.h.cbt" succeeded, but specified dependency "c:\users\lator\documents\github\localbinarycuda\application\release\moc_predefs.h.cbt" does not exist. This may cause incremental build to work incorrectly.
-  Moc'ing mainwindow.h...
-  main.cpp
-  mainwindow.cpp
   processor.cpp
-C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\processor.cpp(24,41): warning C4100: 'threshold': unreferenced formal parameter
-C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\processor.cpp(28,64): warning C4100: 'k': unreferenced formal parameter
-C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\processor.cpp(28,42): warning C4100: 'tamanyFinestra': unreferenced formal parameter
-  moc_mainwindow.cpp
+C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\processor.cpp(51,41): warning C4100: 'threshold': unreferenced formal parameter
+C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\processor.cpp(55,64): warning C4100: 'k': unreferenced formal parameter
+C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\processor.cpp(55,42): warning C4100: 'tamanyFinestra': unreferenced formal parameter
   qt5-image-viewer.vcxproj -> C:\Users\lator\Documents\GitHub\localBinaryCuda\APPLICATION\release\qt5-image-viewer.exe

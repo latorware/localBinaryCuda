@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     m_graphicsScene = new QGraphicsScene();
-    //myProcessor = new processor(ui->textBrowser); 
+    myProcessor = new processor(ui->textBrowser); 
     m_graphicsScene->setItemIndexMethod(QGraphicsScene::NoIndex);
     QImage bground(50, 50, QImage::Format_RGB888);
     for (int y = 0; y < 25; y++)
@@ -36,6 +36,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //ui->statusBar->showMessage("ready", 0);
     ui->textBrowser->append("ready"); 
+    ui->textBrowser->append("To start, Load an image");
+
+    ui->grayscale->setDisabled(true); 
+    ui->globalBinarize->setDisabled(true);
+    ui->globalThresholdSlider->setDisabled(true);
+    ui->NickGPU->setDisabled(true);
+    ui->NickCPU->setDisabled(true);
+    ui->NickGPU->setStyleSheet("background-color: rgb(175, 175, 175)"); 
+    ui->windowSizeSlider->setDisabled(true);
+    ui->kSlider->setDisabled(true);
+    ui->GlobalThresholdText->setDisabled(true); 
+    ui->windowSizeText->setDisabled(true);
+    ui->evenNumber->setDisabled(true);
+    ui->kText->setDisabled(true);
+    ui->label->setDisabled(true);
+    ui->btnFitWindow->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -75,7 +91,30 @@ void MainWindow::onPressLoadImage()
     ui->m_graphicsView->viewFit();
 
     //ui->statusBar->showMessage("image loaded", 0);
-    ui->textBrowser->append("image loaded in the visualizer"); 
+    if (reader.canRead())
+    {
+        ui->label->setDisabled(false);
+        ui->btnFitWindow->setDisabled(false);
+        ui->textBrowser->append("image loaded in the visualizer");
+    }
+
+    if (myProcessor->ReadFile(qStrFilePath.toStdString()) == 0)
+    {
+
+
+        ui->grayscale->setDisabled(false);
+        ui->globalBinarize->setDisabled(false);
+        ui->globalThresholdSlider->setDisabled(false);
+        ui->NickGPU->setDisabled(false);
+        ui->NickCPU->setDisabled(false);
+        ui->NickGPU->setStyleSheet("background-color: rgb(0, 255, 0)");
+        ui->windowSizeSlider->setDisabled(false);
+        ui->kSlider->setDisabled(false);
+        ui->GlobalThresholdText->setDisabled(false);
+        ui->windowSizeText->setDisabled(false);
+        ui->evenNumber->setDisabled(false);
+        ui->kText->setDisabled(false);
+    }
 }
 /*
 void MainWindow::onPressSaveImage()
@@ -124,12 +163,14 @@ void MainWindow::onWindowSizeSliderChanged(int newValue)
         ui->evenNumber->setStyleSheet("background-color: rgb(255, 0, 0)"); 
         ui->NickCPU->setDisabled(true); 
         ui->NickGPU->setDisabled(true);
+        ui->NickGPU->setStyleSheet("background-color: rgb(175, 175, 175)");
     }
     else
     {
         ui->evenNumber->setStyleSheet("");
         ui->NickCPU->setDisabled(false);
         ui->NickGPU->setDisabled(false);
+        ui->NickGPU->setStyleSheet("background-color: rgb(0, 255, 0)");
     }
 }
 

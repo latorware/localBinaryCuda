@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
-//#include "processor.h"
+#include "processor.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -20,7 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* m_graphicsScene;
-    //processor* myProcessor; 
+    processor* myProcessor; 
 
 private slots:
     void onPressLoadImage();

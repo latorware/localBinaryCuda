@@ -57,7 +57,8 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1032, 685);
+        MainWindow->resize(1053, 1600);
+        MainWindow->setMinimumSize(QSize(0, 1100));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout_2 = new QHBoxLayout(centralWidget);
