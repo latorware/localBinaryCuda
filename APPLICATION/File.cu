@@ -1,4 +1,5 @@
 #include <iostream>
+#include <QTextBrowser>
 using namespace std;
 
 
@@ -8,8 +9,7 @@ __global__ void test_kernel(void) {
 }
 
 extern "C"
-void wrapper(void)
+void wrapper(QTextBrowser * outputDisplay)
 {
 	test_kernel << <1, 1 >> > ();
-	cout << 'b' << endl;
 }

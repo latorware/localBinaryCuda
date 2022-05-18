@@ -1,7 +1,8 @@
 #include "processor.h"
 
-#define NICKGPU_IMPLEMENTATION
-#include "NickGPU.cuh"
+//#define NICKGPU_IMPLEMENTATION
+//#include "NickGPU.cuh"
+//#include "NickGPU.cu"
 
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -14,6 +15,10 @@
 #include <malloc.h>
 #include <math.h>
 #include <format>
+
+
+extern "C" void wrapper(QTextBrowser * outputDisplay);
+
 
 
 
@@ -87,7 +92,6 @@ string processor::RGBtoGRAYSCALE()
     outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
     outputDisplay->append(QString::fromStdString(string(std::format("Grayscaled image saved in: {}", fileOUTGRAYSCALED))));
     free(imageOUT); 
-    Wrapper::wrapper();
     return fileOUTGRAYSCALED;
 
 }
