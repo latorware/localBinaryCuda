@@ -13,3 +13,7 @@ void wrapper(QTextBrowser * outputDisplay)
 {
 	test_kernel << <1, 1 >> > ();
 }
+
+
+
+
