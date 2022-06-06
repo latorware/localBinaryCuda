@@ -235,9 +235,6 @@
     </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <None Include="NickGPU.cuh" />
-  </ItemGroup>
-  <ItemGroup>
     <CudaCompile Include="File.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
