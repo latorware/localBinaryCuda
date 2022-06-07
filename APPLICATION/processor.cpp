@@ -234,9 +234,11 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 
 		}
 
-
+		cout << mean << endl; 
+		//printf("%d \n", mean);
 		mean = mean / pixelsInWindow;
 		threshold = (mean)+((k) * (sqrt((sumSquareIntensities - (mean * mean)) / (pixelsInWindow))));
+		//printf("%f \n", threshold);
 		if (imageOUT[i] <= threshold) {
 			imageFinalOUT[i] = 0;
 		}

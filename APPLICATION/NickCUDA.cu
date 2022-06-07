@@ -64,9 +64,10 @@ __global__ void NickKernelMethod1(float* grayscaledImageDevice, float* FinalImag
 				Total_sum_pow2 = Total_sum_pow2 + (temp * temp);
 			}
 
+		printf("%f \n", Total_sum);
 		float mean = Total_sum / numeropixelsfinestra;
 		float Threshold = mean + k * sqrtf((Total_sum_pow2 - mean * mean) / numeropixelsfinestra);
-
+		//printf("%f \n", Threshold);
 
 		if (Threshold < grayscaledImageDevice[row * width + col])
 		{
