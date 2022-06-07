@@ -41,7 +41,9 @@ public:
     QLabel *GlobalThresholdText;
     QSpacerItem *verticalSpacer_3;
     QPushButton *NickCPU;
-    QPushButton *NickGPU;
+    QPushButton *NickGPU1;
+    QPushButton *NickGPU2;
+    QPushButton *NickGPU3;
     QSlider *windowSizeSlider;
     QLabel *windowSizeText;
     QLabel *evenNumber;
@@ -57,7 +59,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1053, 1600);
+        MainWindow->resize(1038, 1600);
         MainWindow->setMinimumSize(QSize(0, 1300));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
@@ -118,11 +120,95 @@ public:
 
         verticalLayout->addWidget(NickCPU);
 
-        NickGPU = new QPushButton(centralWidget);
-        NickGPU->setObjectName(QString::fromUtf8("NickGPU"));
-        NickGPU->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 255, 0)"));
+        NickGPU1 = new QPushButton(centralWidget);
+        NickGPU1->setObjectName(QString::fromUtf8("NickGPU1"));
+        NickGPU1->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 255, 0)"));
 
-        verticalLayout->addWidget(NickGPU);
+        verticalLayout->addWidget(NickGPU1);
+
+        NickGPU2 = new QPushButton(centralWidget);
+        NickGPU2->setObjectName(QString::fromUtf8("NickGPU2"));
+        QPalette palette;
+        QBrush brush(QColor(0, 0, 0, 255));
+        brush.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::WindowText, brush);
+        QBrush brush1(QColor(0, 255, 0, 255));
+        brush1.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Button, brush1);
+        QBrush brush2(QColor(127, 255, 127, 255));
+        brush2.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Light, brush2);
+        QBrush brush3(QColor(63, 255, 63, 255));
+        brush3.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Midlight, brush3);
+        QBrush brush4(QColor(0, 127, 0, 255));
+        brush4.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Dark, brush4);
+        QBrush brush5(QColor(0, 170, 0, 255));
+        brush5.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::Mid, brush5);
+        palette.setBrush(QPalette::Active, QPalette::Text, brush);
+        QBrush brush6(QColor(255, 255, 255, 255));
+        brush6.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::BrightText, brush6);
+        palette.setBrush(QPalette::Active, QPalette::ButtonText, brush);
+        palette.setBrush(QPalette::Active, QPalette::Base, brush1);
+        palette.setBrush(QPalette::Active, QPalette::Window, brush1);
+        palette.setBrush(QPalette::Active, QPalette::Shadow, brush);
+        palette.setBrush(QPalette::Active, QPalette::AlternateBase, brush2);
+        QBrush brush7(QColor(255, 255, 220, 255));
+        brush7.setStyle(Qt::SolidPattern);
+        palette.setBrush(QPalette::Active, QPalette::ToolTipBase, brush7);
+        palette.setBrush(QPalette::Active, QPalette::ToolTipText, brush);
+        QBrush brush8(QColor(0, 0, 0, 128));
+        brush8.setStyle(Qt::SolidPattern);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette::Active, QPalette::PlaceholderText, brush8);
+#endif
+        palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Button, brush1);
+        palette.setBrush(QPalette::Inactive, QPalette::Light, brush2);
+        palette.setBrush(QPalette::Inactive, QPalette::Midlight, brush3);
+        palette.setBrush(QPalette::Inactive, QPalette::Dark, brush4);
+        palette.setBrush(QPalette::Inactive, QPalette::Mid, brush5);
+        palette.setBrush(QPalette::Inactive, QPalette::Text, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::BrightText, brush6);
+        palette.setBrush(QPalette::Inactive, QPalette::ButtonText, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::Base, brush1);
+        palette.setBrush(QPalette::Inactive, QPalette::Window, brush1);
+        palette.setBrush(QPalette::Inactive, QPalette::Shadow, brush);
+        palette.setBrush(QPalette::Inactive, QPalette::AlternateBase, brush2);
+        palette.setBrush(QPalette::Inactive, QPalette::ToolTipBase, brush7);
+        palette.setBrush(QPalette::Inactive, QPalette::ToolTipText, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette::Inactive, QPalette::PlaceholderText, brush8);
+#endif
+        palette.setBrush(QPalette::Disabled, QPalette::WindowText, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::Button, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::Light, brush2);
+        palette.setBrush(QPalette::Disabled, QPalette::Midlight, brush3);
+        palette.setBrush(QPalette::Disabled, QPalette::Dark, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::Mid, brush5);
+        palette.setBrush(QPalette::Disabled, QPalette::Text, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::BrightText, brush6);
+        palette.setBrush(QPalette::Disabled, QPalette::ButtonText, brush4);
+        palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::Window, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::Shadow, brush);
+        palette.setBrush(QPalette::Disabled, QPalette::AlternateBase, brush1);
+        palette.setBrush(QPalette::Disabled, QPalette::ToolTipBase, brush7);
+        palette.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 12, 0)
+        palette.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush8);
+#endif
+        NickGPU2->setPalette(palette);
+
+        verticalLayout->addWidget(NickGPU2);
+
+        NickGPU3 = new QPushButton(centralWidget);
+        NickGPU3->setObjectName(QString::fromUtf8("NickGPU3"));
+
+        verticalLayout->addWidget(NickGPU3);
 
         windowSizeSlider = new QSlider(centralWidget);
         windowSizeSlider->setObjectName(QString::fromUtf8("windowSizeSlider"));
@@ -212,8 +298,10 @@ public:
         QObject::connect(grayscale, SIGNAL(clicked()), MainWindow, SLOT(onGrayscaleClicked()));
         QObject::connect(globalThresholdSlider, SIGNAL(valueChanged(int)), MainWindow, SLOT(onGlobalThresholdSliderChanged(int)));
         QObject::connect(globalBinarize, SIGNAL(clicked()), MainWindow, SLOT(onGlobalBinarizeClicked()));
-        QObject::connect(NickGPU, SIGNAL(clicked()), MainWindow, SLOT(onNickGPUClicked()));
+        QObject::connect(NickGPU1, SIGNAL(clicked()), MainWindow, SLOT(onNickGPU1Clicked()));
         QObject::connect(NickCPU, SIGNAL(clicked()), MainWindow, SLOT(onNickCPUClicked()));
+        QObject::connect(NickGPU2, SIGNAL(clicked()), MainWindow, SLOT(onNickGPU2Clicked()));
+        QObject::connect(NickGPU3, SIGNAL(clicked()), MainWindow, SLOT(onNickGPU3Clicked()));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -225,8 +313,10 @@ public:
         grayscale->setText(QCoreApplication::translate("MainWindow", "RGBtoGRAYSCALE (CPU)", nullptr));
         globalBinarize->setText(QCoreApplication::translate("MainWindow", "GlobalBinarize (CPU)", nullptr));
         GlobalThresholdText->setText(QCoreApplication::translate("MainWindow", "GLOBAL threshold value: 128", nullptr));
-        NickCPU->setText(QCoreApplication::translate("MainWindow", "NICK method (local binaritzation) (CPU)", nullptr));
-        NickGPU->setText(QCoreApplication::translate("MainWindow", "NICK method (local binaritzation) (GPU)", nullptr));
+        NickCPU->setText(QCoreApplication::translate("MainWindow", "NICK (local binaritzation) (CPU)", nullptr));
+        NickGPU1->setText(QCoreApplication::translate("MainWindow", "NICK method1 (local binaritzation) (GPU)", nullptr));
+        NickGPU2->setText(QCoreApplication::translate("MainWindow", "NICK method2 (local binaritzation) (GPU)", nullptr));
+        NickGPU3->setText(QCoreApplication::translate("MainWindow", "NICK method3 (local binaritzation) (GPU)", nullptr));
         windowSizeText->setText(QCoreApplication::translate("MainWindow", "width size of window: 6", nullptr));
         evenNumber->setText(QCoreApplication::translate("MainWindow", "window size has to be an EVEN number!", nullptr));
         kText->setText(QCoreApplication::translate("MainWindow", "k value: -0.2", nullptr));

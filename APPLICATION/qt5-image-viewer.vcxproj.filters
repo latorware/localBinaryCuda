@@ -72,6 +72,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="File.cu" />
+    <CudaCompile Include="NickCUDA.cu" />
+    <CudaCompile Include="NickCUDAKERNEL.cu" />
   </ItemGroup>
 </Project>

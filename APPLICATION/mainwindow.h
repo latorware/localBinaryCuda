@@ -34,7 +34,9 @@ private slots:
     void onGrayscaleClicked(); 
     void onGlobalThresholdSliderChanged(int newValue); 
     void onGlobalBinarizeClicked(); 
-    void onNickGPUClicked();
+    void onNickGPU1Clicked();
+    void onNickGPU2Clicked();
+    void onNickGPU3Clicked();
     void onNickCPUClicked();
 
 };

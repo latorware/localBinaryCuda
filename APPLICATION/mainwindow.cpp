@@ -41,9 +41,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->grayscale->setDisabled(true); 
     ui->globalBinarize->setDisabled(true);
     ui->globalThresholdSlider->setDisabled(true);
-    ui->NickGPU->setDisabled(true);
+    ui->NickGPU1->setDisabled(true);
+    ui->NickGPU2->setDisabled(true);
+    ui->NickGPU3->setDisabled(true);
     ui->NickCPU->setDisabled(true);
-    ui->NickGPU->setStyleSheet("background-color: rgb(175, 175, 175)"); 
+    ui->NickGPU1->setStyleSheet("background-color: rgb(175, 175, 175)"); 
+    ui->NickGPU2->setStyleSheet("background-color: rgb(175, 175, 175)");
+    ui->NickGPU3->setStyleSheet("background-color: rgb(175, 175, 175)");
     ui->windowSizeSlider->setDisabled(true);
     ui->kSlider->setDisabled(true);
     ui->GlobalThresholdText->setDisabled(true); 
@@ -111,9 +115,13 @@ void MainWindow::onPressLoadImage()
         ui->grayscale->setDisabled(false);
         ui->globalBinarize->setDisabled(false);
         ui->globalThresholdSlider->setDisabled(false);
-        ui->NickGPU->setDisabled(false);
+        ui->NickGPU1->setDisabled(false);
+        ui->NickGPU2->setDisabled(false);
+        ui->NickGPU3->setDisabled(false);
         ui->NickCPU->setDisabled(false);
-        ui->NickGPU->setStyleSheet("background-color: rgb(118, 185, 0)");
+        ui->NickGPU1->setStyleSheet("background-color: rgb(118, 185, 0)");
+        ui->NickGPU2->setStyleSheet("background-color: rgb(118, 185, 0)");
+        ui->NickGPU3->setStyleSheet("background-color: rgb(118, 185, 0)");
         ui->windowSizeSlider->setDisabled(false);
         ui->kSlider->setDisabled(false);
         ui->GlobalThresholdText->setDisabled(false);
@@ -170,15 +178,23 @@ void MainWindow::onWindowSizeSliderChanged(int newValue)
     {
         ui->evenNumber->setStyleSheet("background-color: rgb(255, 0, 0)"); 
         ui->NickCPU->setDisabled(true); 
-        ui->NickGPU->setDisabled(true);
-        ui->NickGPU->setStyleSheet("background-color: rgb(175, 175, 175)");
+        ui->NickGPU1->setDisabled(true);
+        ui->NickGPU2->setDisabled(true);
+        ui->NickGPU3->setDisabled(true);
+        ui->NickGPU1->setStyleSheet("background-color: rgb(175, 175, 175)");
+        ui->NickGPU2->setStyleSheet("background-color: rgb(175, 175, 175)");
+        ui->NickGPU3->setStyleSheet("background-color: rgb(175, 175, 175)");
     }
     else
     {
         ui->evenNumber->setStyleSheet("");
         ui->NickCPU->setDisabled(false);
-        ui->NickGPU->setDisabled(false);
-        ui->NickGPU->setStyleSheet("background-color: rgb(0, 255, 0)");
+        ui->NickGPU1->setDisabled(false);
+        ui->NickGPU2->setDisabled(false);
+        ui->NickGPU3->setDisabled(false);
+        ui->NickGPU1->setStyleSheet("background-color: rgb(0, 255, 0)");
+        ui->NickGPU2->setStyleSheet("background-color: rgb(0, 255, 0)");
+        ui->NickGPU3->setStyleSheet("background-color: rgb(0, 255, 0)");
     }
 }
 
@@ -217,7 +233,16 @@ void MainWindow::onGlobalBinarizeClicked()
     ui->textBrowser->append("ready");
 }
 
-void MainWindow::onNickGPUClicked()
+
+void MainWindow::onNickGPU1Clicked()
+{
+}
+
+void MainWindow::onNickGPU2Clicked()
+{
+}
+
+void MainWindow::onNickGPU3Clicked()
 {
 }
 

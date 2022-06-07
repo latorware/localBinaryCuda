@@ -24,6 +24,10 @@ public:
 	string RGBtoGRAYSCALE(); 
 	string globalBinaritzation(int threshold); 
 	string NICKBinaritzationCPU(int tamanyFinestra, float k); 
+	string NICKBinaritzationGPU1(int tamanyFinestra, float k);
+	string NICKBinaritzationGPU2(int tamanyFinestra, float k);
+	string NICKBinaritzationGPU3(int tamanyFinestra, float k);
+
 
 
 
