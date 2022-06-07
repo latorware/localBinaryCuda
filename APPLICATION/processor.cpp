@@ -286,7 +286,8 @@ string processor::NICKBinaritzationGPU1(int tamanyFinestra, float k)
 	outputDisplay->append("CONVERTING TO GRAYSCALE (CPU)...");
 	begin = chrono::steady_clock::now();
 	for (int i = 0; i < width * height; i++) {
-		imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]))/(float)255);
+		//imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]))/(float)255);
+		imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2])));
 	}
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string(std::format("CONVERTED TO GRAYSCALE (CPU) IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));

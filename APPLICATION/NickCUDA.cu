@@ -8,9 +8,10 @@ using namespace std;
 #include "./Lib/stb_image_write.h"
 
 #include <malloc.h>
+#include <device_launch_parameters.h>
 
 
-#define BLOCKSIZE 32
+#define BLOCKSIZE 32 //32x32 = 1024 (max threads per block)
 
 //max image size: 10.000 x 10.000 pixels
 //__constant__ float GrayscaledImageConstant[10000 * 10000];
@@ -22,10 +23,6 @@ __global__ void test_kernel(void) {
 }
 */
 
-
-
-
-
 /*
 extern "C"
 void wrapper(QTextBrowser * outputDisplay)
@@ -33,6 +30,56 @@ void wrapper(QTextBrowser * outputDisplay)
 	test_kernel << <1, 1 >> > ();
 }
 */
+
+
+
+__global__ void NickKernelMethod1(float* grayscaledImageDevice, float* FinalImageDevice, float k, int width, int height, int tamanyMEITATFinestra)
+{
+	//identificadors threads, fila i columna
+	int tx = threadIdx.x;
+	int ty = threadIdx.y;
+	int row = (blockIdx.y * BLOCKSIZE) + ty;
+	int col = (blockIdx.x * BLOCKSIZE) + tx;
+
+	//bordes de la finestra lliscant
+	int beginrow = max(0, row-tamanyMEITATFinestra);
+	int begincolumn = max(0, col - tamanyMEITATFinestra);
+	int endrow = min(height, row + tamanyMEITATFinestra); 
+	int endcolumn = min(width, col + tamanyMEITATFinestra); 
+
+
+	//calcular el pixel actual
+	int numeropixelsfinestra = (beginrow - endrow + 1) * (begincolumn - endcolumn + 1);
+
+	if (row < height && col < width)
+	{
+		float temp;
+		float Total_sum = 0;
+		float Total_sum_pow2 = 0;
+		for (int i = beginrow; i <= endrow; i = i + 1)
+			for (int j = begincolumn; j <= endcolumn; j = j + 1)
+			{
+				temp = grayscaledImageDevice[i * width + j]; 
+				Total_sum = Total_sum + temp;
+				Total_sum_pow2 = Total_sum_pow2 + (temp * temp);
+			}
+
+		float mean = Total_sum / numeropixelsfinestra;
+		float Threshold = mean + k * sqrtf((Total_sum_pow2 - mean * mean) / numeropixelsfinestra);
+
+
+		if (Threshold < grayscaledImageDevice[row * width + col])
+		{
+			FinalImageDevice[row * width + col] = 255; 
+		}
+		else
+		{
+			FinalImageDevice[row * width + col] = 0; 
+		}
+	}
+
+
+}
 
 extern "C"
 string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k, int width, int height, QTextBrowser * outputDisplay, string fileOUTGPUMETHOD1NICK)
@@ -43,12 +90,13 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	dimBlock.x = BLOCKSIZE;
 	dimBlock.y = BLOCKSIZE;
 	dimBlock.z = 1;
-
+	// + BLOCKSIZE necessari pels pixels que queden
 	dimGrid.x = (width + BLOCKSIZE - 1) / BLOCKSIZE;
 	dimGrid.y = (height + BLOCKSIZE - 1) / BLOCKSIZE;
 	dimGrid.z = 1;
 
 	float* FinalImageHost = (float*)malloc(width * height * sizeof(float));
+	char* FinalImageHostChar = (char*)malloc(width * height * sizeof(char));
 
 	//test_kernel << <1, 1 >> > ();
 	cudaEvent_t startMemoryEvent, StopMemoryEvent, startKernelEvent, StopKernelEvent, startMemoryBackEvent, StopMemoryBackEvent;
@@ -69,7 +117,8 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	cudaEventCreate(&startKernelEvent);
 	cudaEventCreate(&StopKernelEvent);
 	cudaEventRecord(startKernelEvent);
-	//NickKernel << <dimGrid, dimBlock >> > (Nd, Pd_global, Nd.width, Nd.height);
+	int tamanyMEITATFinestra = tamanyFinestra / 2; 
+	NickKernelMethod1 << <dimGrid, dimBlock >> > (grayscaledImageDevice, FinalImageDevice, k, width, height, tamanyMEITATFinestra);
 	cudaEventRecord(StopKernelEvent);
 
 
@@ -109,24 +158,50 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	//Writing results, and writing file
 	cudaDeviceSynchronize(); 
 	outputDisplay->append("GPU computation done: ");
-	outputDisplay->append(QString::fromStdString(string("TIME SPENT ALLOCATING AND COPYING INTO GPU = " + to_string((millisecondsMemoryEvent) / 1000.0) + " [seconds]" )));
+	outputDisplay->append(QString::fromStdString(string("TIME SPENT ALLOCATING AND COPYING INTO GPU = " + to_string((millisecondsMemoryEvent) / 1000.0f) + " [seconds]" )));
 	outputDisplay->append(QString::fromStdString(string("TIME SPENT IN THE GPU KERNEL = " + to_string((millisecondsKernelEvent) / 1000.0) + " [seconds]")));
-	outputDisplay->append(QString::fromStdString(string("TIME SPENT COPYING DATA FROM GPU TO CPU = " + to_string((millisecondsMemoryBackEvent) / 1000.0) + " [seconds]")));
+	outputDisplay->append(QString::fromStdString(string("TIME SPENT COPYING DATA FROM GPU TO CPU = " + to_string((millisecondsMemoryBackEvent) / 1000.0f) + " [seconds]")));
 
-	outputDisplay->append("WRITING IMAGE...");
-	int pixelWidthOUT = 1;
 	chrono::steady_clock::time_point begin;
 	chrono::steady_clock::time_point end;
+
+	/*
+	outputDisplay->append("CONVERTING IMAGE FLOAT POINTER TO CHAR POINTER TO WRITE THE IMAGE (CPU)...");
+	begin = chrono::steady_clock::now();
+	
+	for (int i = 0; i < width * height; i++) {
+		if (FinalImageHost[i] == 0)
+		{
+			FinalImageHostChar[i] = 0;
+		}
+		else
+		{
+			FinalImageHostChar[i] = 255;
+		}
+		//cout << FinalImageHost[i] << endl; 
+	}
+	
+	end = chrono::steady_clock::now();
+	outputDisplay->append(QString::fromStdString(string("CONVERTED FLOAT POINTER TO CHAR POINTER IN(CPU) = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0f) + " [seconds]")));
+	*/
+	/*
+	for (int i = 0; i < width * height; i++) {
+		cout << FinalImageHost[i] << endl;
+	}
+	*/
+	outputDisplay->append("WRITING IMAGE...");
+	int pixelWidthOUT = 1;
 	begin = chrono::steady_clock::now();
 	//ESCRITURA DE LA IMAGEN EN SECUENCIAL
-	stbi_write_png(fileOUTGPUMETHOD1NICK.c_str(), width, height, pixelWidthOUT, FinalImageDevice, 0);
+	stbi_write_png(fileOUTGPUMETHOD1NICK.c_str(), width, height, pixelWidthOUT, FinalImageHost, 0);
 	end = chrono::steady_clock::now();
-	outputDisplay->append(QString::fromStdString(string("IMAGE WRITTEN IN = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0) + " [seconds]")));
+	outputDisplay->append(QString::fromStdString(string("IMAGE WRITTEN IN = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0f) + " [seconds]")));
 	outputDisplay->append(QString::fromStdString(string("Nick gpu method1 image saved in: " + fileOUTGPUMETHOD1NICK)));
 
 
 	//free mmemory, host
-	free(FinalImageDevice); 
+	free(FinalImageHostChar);
+	free(FinalImageHost);
 
 
 

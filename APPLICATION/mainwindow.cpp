@@ -242,6 +242,15 @@ void MainWindow::onGlobalBinarizeClicked()
 
 void MainWindow::onNickGPU1Clicked()
 {
+    string path = myProcessor->NICKBinaritzationGPU1(ui->windowSizeSlider->value(), (float)((ui->kSlider->value()) / 100.f));
+    ui->textBrowser->append("Opening Nick GPU method1 Binarized image in the visualizer");
+    m_graphicsScene->clear();
+    QImageReader reader(QString::fromStdString(path));
+    QImage qimg = reader.read();
+    m_graphicsScene->setSceneRect(qimg.rect());
+    m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
+    ui->textBrowser->append("Nick GPU method1 binarized image opened in the visualizer");
+    ui->textBrowser->append("ready");
 }
 
 void MainWindow::onNickGPU2Clicked()
