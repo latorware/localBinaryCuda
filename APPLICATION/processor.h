@@ -20,6 +20,8 @@ public:
 
 	processor(QTextBrowser* outputDisplay);
 	int ReadFile(string imagePath); 
+	int getWidth(); 
+	int getHeight(); 
 	//void printImage3Color(); 
 	string RGBtoGRAYSCALE(); 
 	string globalBinaritzation(int threshold); 
@@ -40,6 +42,9 @@ private:
 	string fileOUTGRAYSCALED;
 	string fileOUTGLOBALBINARITZATION;
 	string fileOUTCPUNICK;
+	string fileOUTGPUMETHOD1NICK; 
+	string fileOUTGPUMETHOD2NICK; 
+	string fileOUTGPUMETHOD3NICK; 
 	unsigned char* image;
 	int width, height, pixelWidth; //meta info de la imagen
 	int tamanyFinestraLLiscant;

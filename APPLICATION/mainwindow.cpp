@@ -111,23 +111,29 @@ void MainWindow::onPressLoadImage()
     if (myProcessor->ReadFile(qStrFilePath.toStdString()) == 0)
     {
         
-
-        ui->grayscale->setDisabled(false);
-        ui->globalBinarize->setDisabled(false);
-        ui->globalThresholdSlider->setDisabled(false);
-        ui->NickGPU1->setDisabled(false);
-        ui->NickGPU2->setDisabled(false);
-        ui->NickGPU3->setDisabled(false);
-        ui->NickCPU->setDisabled(false);
-        ui->NickGPU1->setStyleSheet("background-color: rgb(118, 185, 0)");
-        ui->NickGPU2->setStyleSheet("background-color: rgb(118, 185, 0)");
-        ui->NickGPU3->setStyleSheet("background-color: rgb(118, 185, 0)");
-        ui->windowSizeSlider->setDisabled(false);
-        ui->kSlider->setDisabled(false);
-        ui->GlobalThresholdText->setDisabled(false);
-        ui->windowSizeText->setDisabled(false);
-        ui->evenNumber->setDisabled(false);
-        ui->kText->setDisabled(false);
+        if ((myProcessor->getWidth() > 10000) || (myProcessor->getHeight() > 10000))
+        {
+            ui->textBrowser->append("ERROR: image should be smaller than 10.000 x 10.000 pixels. Load another image. ");
+        }
+        else
+        {
+            ui->grayscale->setDisabled(false);
+            ui->globalBinarize->setDisabled(false);
+            ui->globalThresholdSlider->setDisabled(false);
+            ui->NickGPU1->setDisabled(false);
+            ui->NickGPU2->setDisabled(false);
+            ui->NickGPU3->setDisabled(false);
+            ui->NickCPU->setDisabled(false);
+            ui->NickGPU1->setStyleSheet("background-color: rgb(118, 185, 0)");
+            ui->NickGPU2->setStyleSheet("background-color: rgb(118, 185, 0)");
+            ui->NickGPU3->setStyleSheet("background-color: rgb(118, 185, 0)");
+            ui->windowSizeSlider->setDisabled(false);
+            ui->kSlider->setDisabled(false);
+            ui->GlobalThresholdText->setDisabled(false);
+            ui->windowSizeText->setDisabled(false);
+            ui->evenNumber->setDisabled(false);
+            ui->kText->setDisabled(false);
+        }
     }
     
     ui->textBrowser->append("ready");

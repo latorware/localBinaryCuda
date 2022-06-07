@@ -36,7 +36,7 @@ private slots:
     void onGlobalBinarizeClicked(); 
     void onNickGPU1Clicked();
     void onNickGPU2Clicked();
-    void onNickGPU3Clicked();
+    void onNickGPU3Clicked();   
     void onNickCPUClicked();
 
 };

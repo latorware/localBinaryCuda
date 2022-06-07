@@ -75,4 +75,7 @@
     <CudaCompile Include="NickCUDA.cu" />
     <CudaCompile Include="NickCUDAKERNEL.cu" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="requirements.txt" />
+  </ItemGroup>
 </Project>
