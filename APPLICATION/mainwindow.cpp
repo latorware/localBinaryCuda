@@ -136,7 +136,7 @@ void MainWindow::onPressLoadImage()
         }
     }
     
-    ui->textBrowser->append("ready");
+    ui->textBrowser->append("ready \n \n");
 }
 /*
 void MainWindow::onPressSaveImage()
@@ -219,6 +219,7 @@ void MainWindow::onGrayscaleClicked()
     m_graphicsScene->setSceneRect(qimg.rect());
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
     ui->textBrowser->append("Grayscaled image opened in the visualizer");
+    ui->textBrowser->append("ready \n \n");
 }
 
 void MainWindow::onGlobalThresholdSliderChanged(int newValue)
@@ -236,7 +237,7 @@ void MainWindow::onGlobalBinarizeClicked()
     m_graphicsScene->setSceneRect(qimg.rect());
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
     ui->textBrowser->append("Globally Binarized image opened in the visualizer");
-    ui->textBrowser->append("ready");
+    ui->textBrowser->append("ready \n \n");
 }
 
 
@@ -250,7 +251,7 @@ void MainWindow::onNickGPU1Clicked()
     m_graphicsScene->setSceneRect(qimg.rect());
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
     ui->textBrowser->append("Nick GPU method1 binarized image opened in the visualizer");
-    ui->textBrowser->append("ready");
+    ui->textBrowser->append("ready \n \n");
 }
 
 void MainWindow::onNickGPU2Clicked()
@@ -271,6 +272,6 @@ void MainWindow::onNickCPUClicked()
     m_graphicsScene->setSceneRect(qimg.rect());
     m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
     ui->textBrowser->append("Nick CPU binarized image opened in the visualizer");
-    ui->textBrowser->append("ready");
+    ui->textBrowser->append("ready \n \n");
 
 }

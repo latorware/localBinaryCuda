@@ -182,77 +182,58 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 
 
 	outputDisplay->append("BINARITZATING...");
-	begin = chrono::steady_clock::now();
-	tamanyFinestra = tamanyFinestra / 2;
-	for (int i = 0; i < width * height; i++) {
-		int pixelsInWindow = 0; int mean = 0; int sumSquareIntensities = 0; int temp;
-		float threshold;
 
-		int fila = i / width;
-		//int columna = i % width;
-		for (int j = 0; j < tamanyFinestra; j++) {
-			if ((i + j) / width == fila) {
+	int tamanyMEITATFinestra = tamanyFinestra / 2;
 
-				for (int k = 0; k < tamanyFinestra; k++) {
-					if (((i + j) + k * width) / width < height) {
-						pixelsInWindow++;
-						temp = imageOUT[(i + j) + k * width];
-						mean += temp;
-						sumSquareIntensities += temp * temp;
-					}
+	for (int p = 0; p < width * height; p++)
+	{
+		int row = p / width; 
+		int col = p % width; 
 
-					if ((((i + j) - (k * width)) / (width * 1.0)) >= 0.0) {
-						pixelsInWindow++;
-						temp = imageOUT[(i + j) - (k * width)];
-						mean += temp;
-						sumSquareIntensities += temp * temp;
-					}
+		//bordes de la finestra lliscant
+		int beginrow = max(0, row - tamanyMEITATFinestra);
+		int begincolumn = max(0, col - tamanyMEITATFinestra);
+		int endrow = min(height - 1, row + tamanyMEITATFinestra);
+		int endcolumn = min(width - 1, col + tamanyMEITATFinestra);
+
+		//calcular el pixel actual
+		int numeropixelsfinestra = (endrow - beginrow + 1) * (endcolumn - begincolumn + 1);
+
+
+		if (row < height && col < width)
+		{
+			unsigned char temp;
+			int Total_sum = 0;
+			int Total_sum_pow2 = 0;
+			for (int i = beginrow; i <= endrow; i = i + 1)
+				for (int j = begincolumn; j <= endcolumn; j = j + 1)
+				{
+					temp = imageOUT[i * width + j];
+					//printf("%f \n", temp);
+					Total_sum = Total_sum + temp;
+					Total_sum_pow2 = Total_sum_pow2 + (temp * temp);
 				}
 
+			//printf("%f \n", Total_sum);
+			float mean = Total_sum / (numeropixelsfinestra*1.0f);
+			float Threshold = mean + k * sqrtf((Total_sum_pow2 - mean * mean) / (numeropixelsfinestra*1.0f));
 
+			if (Threshold < imageOUT[row * width + col])
+			{
+				imageFinalOUT[row * width + col] = 255;
+				//printf("Yes \n"); 
 			}
-
-			if (((i - j) / width == fila) && (i - j >= 0)) {
-
-				for (int k = 0; k < tamanyFinestra; k++) {
-					if (((i - j) + k * width) / width < height) {
-						pixelsInWindow++;
-						temp = imageOUT[(i - j) + k * width];
-						mean += temp;
-						sumSquareIntensities += temp * temp;
-					}
-
-					if ((((i - j) - (k * width)) / (width * 1.0)) >= 0.0) {
-						pixelsInWindow++;
-						temp = imageOUT[(i - j) - (k * width)];
-						mean += temp;
-						sumSquareIntensities += temp * temp;
-					}
-				}
-
+			else
+			{
+				imageFinalOUT[row * width + col] = 0;
+				//printf("No \n"); 
 			}
-
-
 		}
-
-		//cout << mean << endl; 
-		//printf("%d \n", mean);
-		mean = mean / pixelsInWindow;
-		//cout << pixelsInWindow << endl; 
-		threshold = (mean)+((k) * (sqrt((sumSquareIntensities - (mean * mean)) / (pixelsInWindow))));
-		//cout << threshold << "         " << +imageOUT[i] << endl; 
-		if (imageOUT[i] <= threshold) {
-			imageFinalOUT[i] = 0;
-		}
-		else {
-			imageFinalOUT[i] = 255;
-
-		}
-
-
-
-
 	}
+
+
+
+
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string(std::format("BINARITZATED IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
 
