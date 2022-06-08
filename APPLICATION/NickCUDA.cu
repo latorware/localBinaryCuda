@@ -101,7 +101,7 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	dimGrid.z = 1;
 
 	float* FinalImageHost = (float*)malloc(width * height * sizeof(float));
-	unsigned char* FinalImageHostChar = (unsigned char*)malloc(width * height * sizeof(unsigned char));
+	//unsigned char* FinalImageHostChar = (unsigned char*)malloc(width * height * sizeof(unsigned char));
 
 	//test_kernel << <1, 1 >> > ();
 	cudaEvent_t startMemoryEvent, StopMemoryEvent, startKernelEvent, StopKernelEvent, startMemoryBackEvent, StopMemoryBackEvent;
@@ -170,7 +170,7 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	chrono::steady_clock::time_point begin;
 	chrono::steady_clock::time_point end;
 
-	
+	/*
 	outputDisplay->append("CONVERTING IMAGE FLOAT POINTER TO CHAR POINTER TO WRITE THE IMAGE (CPU)...");
 	begin = chrono::steady_clock::now();
 	
@@ -188,7 +188,7 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string("CONVERTED FLOAT POINTER TO CHAR POINTER IN(CPU) = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0f) + " [seconds]")));
-	
+	*/
 	/*
 	for (int i = 0; i < width * height; i++) {
 		cout << FinalImageHost[i] << endl;
@@ -199,14 +199,14 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	int pixelWidthOUT = 1;
 	begin = chrono::steady_clock::now();
 	//ESCRITURA DE LA IMAGEN EN SECUENCIAL
-	stbi_write_png(fileOUTGPUMETHOD1NICK.c_str(), width, height, pixelWidthOUT, FinalImageHostChar, 0);
+	stbi_write_png(fileOUTGPUMETHOD1NICK.c_str(), width, height, pixelWidthOUT, FinalImageHost, 0);
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string("IMAGE WRITTEN IN = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0f) + " [seconds]")));
 	outputDisplay->append(QString::fromStdString(string("Nick gpu method1 image saved in: " + fileOUTGPUMETHOD1NICK)));
 
 
 	//free mmemory, host
-	free(FinalImageHostChar);
+	//free(FinalImageHostChar);
 	free(FinalImageHost);
 
 
