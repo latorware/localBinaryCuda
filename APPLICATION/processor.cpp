@@ -83,7 +83,7 @@ string processor::RGBtoGRAYSCALE()
 
 	outputDisplay->append("ALLOCATING SPACE FOR NEW IMAGE...");
 	begin = chrono::steady_clock::now();
-	char* imageOUT = (char*)malloc(width * height * sizeof(char));
+	unsigned char* imageOUT = (unsigned char*)malloc(width * height * sizeof(unsigned char));
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string(std::format("ALLOCATED SPACE IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
 
@@ -119,7 +119,7 @@ string processor::globalBinaritzation(int threshold)
 
 	outputDisplay->append("ALLOCATING SPACE FOR NEW IMAGE...");
 	begin = chrono::steady_clock::now();
-	char* imageOUT = (char*)malloc(width * height * sizeof(char));
+	unsigned char* imageOUT = (unsigned char*)malloc(width * height * sizeof(unsigned char));
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string(std::format("ALLOCATED SPACE IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
 
@@ -163,8 +163,8 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 	outputDisplay->append(QString::fromStdString(string(std::format("k = {}", k))));
 	outputDisplay->append("ALLOCATING SPACE FOR NEW IMAGE...");
 	begin = chrono::steady_clock::now();
-	char* imageOUT = (char*)malloc(width * height * sizeof(char));
-	char* imageFinalOUT = (char*)malloc(width * height * sizeof(char));
+	unsigned char* imageOUT = (unsigned char*)malloc(width * height * sizeof(unsigned char));
+	unsigned char* imageFinalOUT = (unsigned char*)malloc(width * height * sizeof(unsigned char));
 
 
 	end = chrono::steady_clock::now();
@@ -174,6 +174,7 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 	begin = chrono::steady_clock::now();
 	for (int i = 0; i < width * height; i++) {
 		imageOUT[i] = (((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]));
+		//cout << +imageOUT[i] << "      " << (((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2])) << endl; 
 	}
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string(std::format("CONVERTED TO GRAYSCALE IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
@@ -234,11 +235,12 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 
 		}
 
-		cout << mean << endl; 
+		//cout << mean << endl; 
 		//printf("%d \n", mean);
 		mean = mean / pixelsInWindow;
+		cout << pixelsInWindow << endl; 
 		threshold = (mean)+((k) * (sqrt((sumSquareIntensities - (mean * mean)) / (pixelsInWindow))));
-		//printf("%f \n", threshold);
+		//cout << threshold << "         " << +imageOUT[i] << endl; 
 		if (imageOUT[i] <= threshold) {
 			imageFinalOUT[i] = 0;
 		}
@@ -289,7 +291,8 @@ string processor::NICKBinaritzationGPU1(int tamanyFinestra, float k)
 	begin = chrono::steady_clock::now();
 	for (int i = 0; i < width * height; i++) {
 		//imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]))/(float)255);
-		imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2])));
+		imageOUT[i] = (int)((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2])));
+		//cout << imageOUT[i] << endl; 
 	}
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string(std::format("CONVERTED TO GRAYSCALE (CPU) IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));

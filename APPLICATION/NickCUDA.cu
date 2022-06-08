@@ -49,7 +49,7 @@ __global__ void NickKernelMethod1(float* grayscaledImageDevice, float* FinalImag
 
 
 	//calcular el pixel actual
-	int numeropixelsfinestra = (beginrow - endrow + 1) * (begincolumn - endcolumn + 1);
+	int numeropixelsfinestra = (endrow - beginrow + 1) * (endcolumn - begincolumn + 1);
 
 	if (row < height && col < width)
 	{
@@ -60,23 +60,27 @@ __global__ void NickKernelMethod1(float* grayscaledImageDevice, float* FinalImag
 			for (int j = begincolumn; j <= endcolumn; j = j + 1)
 			{
 				temp = grayscaledImageDevice[i * width + j]; 
+				//printf("%f \n", temp);
 				Total_sum = Total_sum + temp;
 				Total_sum_pow2 = Total_sum_pow2 + (temp * temp);
 			}
 
-		printf("%f \n", Total_sum);
+		//printf("%f \n", Total_sum);
 		float mean = Total_sum / numeropixelsfinestra;
 		float Threshold = mean + k * sqrtf((Total_sum_pow2 - mean * mean) / numeropixelsfinestra);
-		//printf("%f \n", Threshold);
+		//printf("%f      %f \n", Threshold, grayscaledImageDevice[row * width + col]);
 
 		if (Threshold < grayscaledImageDevice[row * width + col])
 		{
 			FinalImageDevice[row * width + col] = 255; 
+			//printf("Yes \n"); 
 		}
 		else
 		{
 			FinalImageDevice[row * width + col] = 0; 
+			//printf("No \n"); 
 		}
+		//printf("%f \n", FinalImageDevice[row * width + col]);
 	}
 
 
@@ -97,7 +101,7 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	dimGrid.z = 1;
 
 	float* FinalImageHost = (float*)malloc(width * height * sizeof(float));
-	char* FinalImageHostChar = (char*)malloc(width * height * sizeof(char));
+	unsigned char* FinalImageHostChar = (unsigned char*)malloc(width * height * sizeof(unsigned char));
 
 	//test_kernel << <1, 1 >> > ();
 	cudaEvent_t startMemoryEvent, StopMemoryEvent, startKernelEvent, StopKernelEvent, startMemoryBackEvent, StopMemoryBackEvent;
@@ -166,7 +170,7 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	chrono::steady_clock::time_point begin;
 	chrono::steady_clock::time_point end;
 
-	/*
+	
 	outputDisplay->append("CONVERTING IMAGE FLOAT POINTER TO CHAR POINTER TO WRITE THE IMAGE (CPU)...");
 	begin = chrono::steady_clock::now();
 	
@@ -184,17 +188,18 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string("CONVERTED FLOAT POINTER TO CHAR POINTER IN(CPU) = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0f) + " [seconds]")));
-	*/
+	
 	/*
 	for (int i = 0; i < width * height; i++) {
 		cout << FinalImageHost[i] << endl;
 	}
 	*/
+	
 	outputDisplay->append("WRITING IMAGE...");
 	int pixelWidthOUT = 1;
 	begin = chrono::steady_clock::now();
 	//ESCRITURA DE LA IMAGEN EN SECUENCIAL
-	stbi_write_png(fileOUTGPUMETHOD1NICK.c_str(), width, height, pixelWidthOUT, FinalImageHost, 0);
+	stbi_write_png(fileOUTGPUMETHOD1NICK.c_str(), width, height, pixelWidthOUT, FinalImageHostChar, 0);
 	end = chrono::steady_clock::now();
 	outputDisplay->append(QString::fromStdString(string("IMAGE WRITTEN IN = " + to_string((chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0f) + " [seconds]")));
 	outputDisplay->append(QString::fromStdString(string("Nick gpu method1 image saved in: " + fileOUTGPUMETHOD1NICK)));

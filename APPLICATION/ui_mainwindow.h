@@ -235,7 +235,7 @@ public:
         kSlider = new QSlider(centralWidget);
         kSlider->setObjectName(QString::fromUtf8("kSlider"));
         kSlider->setMinimum(-20);
-        kSlider->setMaximum(-10);
+        kSlider->setMaximum(10);
         kSlider->setValue(-20);
         kSlider->setOrientation(Qt::Horizontal);
 
