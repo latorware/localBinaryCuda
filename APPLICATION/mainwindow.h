@@ -38,6 +38,7 @@ private slots:
     void onNickGPU2Clicked();
     void onNickGPU3Clicked();   
     void onNickCPUClicked();
+    void onClearTextClicked(); 
 
 };
 

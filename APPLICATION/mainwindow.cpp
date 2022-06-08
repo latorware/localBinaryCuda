@@ -275,3 +275,8 @@ void MainWindow::onNickCPUClicked()
     ui->textBrowser->append("ready \n \n");
 
 }
+
+void MainWindow::onClearTextClicked()
+{
+    ui->textBrowser->clear(); 
+}
