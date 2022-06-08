@@ -89,7 +89,9 @@ __global__ void NickKernelMethod1(float* grayscaledImageDevice, float* FinalImag
 extern "C"
 string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k, int width, int height, QTextBrowser * outputDisplay, string fileOUTGPUMETHOD1NICK)
 {
-
+	float millisecondsMemoryEvent = 0;
+	float millisecondsKernelEvent = 0;
+	float millisecondsMemoryBackEvent = 0;
 	dim3 dimGrid, dimBlock; 
 
 	dimBlock.x = BLOCKSIZE;
@@ -124,6 +126,7 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	cudaEventRecord(startKernelEvent);
 	int tamanyMEITATFinestra = tamanyFinestra / 2; 
 	NickKernelMethod1 << <dimGrid, dimBlock >> > (grayscaledImageDevice, FinalImageDevice, k, width, height, tamanyMEITATFinestra);
+	//cudaDeviceSynchronize();  // SA DE TREURE
 	cudaEventRecord(StopKernelEvent);
 
 
@@ -140,15 +143,12 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	cudaFree(FinalImageDevice); 
 
 	cudaEventSynchronize(StopMemoryEvent);
-	float millisecondsMemoryEvent = 0;
 	cudaEventElapsedTime(&millisecondsMemoryEvent, startMemoryEvent, StopMemoryEvent);
 
 	cudaEventSynchronize(StopKernelEvent);
-	float millisecondsKernelEvent = 0;
 	cudaEventElapsedTime(&millisecondsKernelEvent, startKernelEvent, StopKernelEvent);
 
 	cudaEventSynchronize(StopMemoryBackEvent);
-	float millisecondsMemoryBackEvent = 0;
 	cudaEventElapsedTime(&millisecondsMemoryBackEvent, startMemoryBackEvent, StopMemoryBackEvent);
 
 	cudaEventDestroy(startMemoryEvent);
@@ -170,10 +170,10 @@ string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k,
 	chrono::steady_clock::time_point begin;
 	chrono::steady_clock::time_point end;
 
-	/*
+	
 	outputDisplay->append("CONVERTING IMAGE FLOAT POINTER TO CHAR POINTER TO WRITE THE IMAGE (CPU)...");
 	begin = chrono::steady_clock::now();
-	
+	/*
 	for (int i = 0; i < width * height; i++) {
 		if (FinalImageHost[i] == 0)
 		{
