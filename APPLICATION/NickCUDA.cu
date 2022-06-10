@@ -216,7 +216,7 @@ __global__ void NickKernelMethod3(float* grayscaledImageDevice, float* FinalImag
 
 
 		//Casos row i col seguents
-		if ((blockIdx.y < (height-1)) && (blockIdx.x < (width-1)))
+		if ((endrowshared < (height-1)) && (endcolshared < (width-1)))
 		{
 			//cas 1 1
 			SharedMemory[ty + (BLOCKSIZE * 2)][tx + (BLOCKSIZE * 2)] = grayscaledImageDevice[(((blockIdx.y + 1) * BLOCKSIZE) + ty) * width + (((blockIdx.x + 1) * BLOCKSIZE) + tx)];
@@ -225,23 +225,28 @@ __global__ void NickKernelMethod3(float* grayscaledImageDevice, float* FinalImag
 			//cas 0 1
 			SharedMemory[ty + BLOCKSIZE][tx + (BLOCKSIZE * 2)] = grayscaledImageDevice[row * width + (((blockIdx.x + 1) * BLOCKSIZE) + tx)];
 		}
-		else if (blockIdx.y < (height - 1))
+		else if (endrowshared < (height - 1))
 		{
 			//cas 1 0
 			SharedMemory[ty + (BLOCKSIZE * 2)][tx + BLOCKSIZE] = grayscaledImageDevice[(((blockIdx.y + 1) * BLOCKSIZE) + ty) * width + col];
 		}
-		else if (blockIdx.x < (width - 1))
+		else if (endcolshared < (width - 1))
 		{
 			//cas 0 1
 			SharedMemory[ty + BLOCKSIZE][tx + (BLOCKSIZE * 2)] = grayscaledImageDevice[row * width + (((blockIdx.x + 1) * BLOCKSIZE) + tx)];
 		}
 
+		//Casos 1,-1
+		if ((endrowshared < (height - 1)) && (blockIdx.x > 0))
+		{
+			SharedMemory[ty + (BLOCKSIZE*2)][tx] = grayscaledImageDevice[(((blockIdx.y + 1) * BLOCKSIZE) + ty) * width + (begincolshared + tx)];
+		}
 
-
-
-
-
-
+		//Casos -1, 1
+		if ((blockIdx.y > 0) && endcolshared < (width - 1))
+		{
+			SharedMemory[ty ][tx + (BLOCKSIZE * 2)] = grayscaledImageDevice[(beginrowshared + ty) * width + (((blockIdx.x + 1) * BLOCKSIZE) + tx)];
+		}
 
 
 
@@ -273,7 +278,11 @@ __global__ void NickKernelMethod3(float* grayscaledImageDevice, float* FinalImag
 			for (int j = begincolumn; j <= endcolumn; j = j + 1)
 			{
 				if ((beginrowshared < i) && (begincolshared < j) && (i < endrowshared) && (j < endcolshared))
-					temp = SharedMemory[i % BLOCKSIZE][j % BLOCKSIZE];
+				{
+					int indexSharedy = ((((i / BLOCKSIZE) - blockIdx.y) + 1) * BLOCKSIZE) + (i % BLOCKSIZE);
+					int indexSharedx = ((((j / BLOCKSIZE) - blockIdx.x) + 1) * BLOCKSIZE) + (j % BLOCKSIZE);
+					temp = SharedMemory[indexSharedy][indexSharedx];
+				}
 				else
 					temp = grayscaledImageDevice[i * width + j];
 				//printf("%f \n", temp);
