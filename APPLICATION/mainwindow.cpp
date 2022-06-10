@@ -256,10 +256,28 @@ void MainWindow::onNickGPU1Clicked()
 
 void MainWindow::onNickGPU2Clicked()
 {
+    string path = myProcessor->NICKBinaritzationGPU2(ui->windowSizeSlider->value(), (float)((ui->kSlider->value()) / 100.f));
+    ui->textBrowser->append("Opening Nick GPU method2 Binarized image in the visualizer");
+    m_graphicsScene->clear();
+    QImageReader reader(QString::fromStdString(path));
+    QImage qimg = reader.read();
+    m_graphicsScene->setSceneRect(qimg.rect());
+    m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
+    ui->textBrowser->append("Nick GPU method2 binarized image opened in the visualizer");
+    ui->textBrowser->append("ready \n \n");
 }
 
 void MainWindow::onNickGPU3Clicked()
 {
+    string path = myProcessor->NICKBinaritzationGPU3(ui->windowSizeSlider->value(), (float)((ui->kSlider->value()) / 100.f));
+    ui->textBrowser->append("Opening Nick GPU method3 Binarized image in the visualizer");
+    m_graphicsScene->clear();
+    QImageReader reader(QString::fromStdString(path));
+    QImage qimg = reader.read();
+    m_graphicsScene->setSceneRect(qimg.rect());
+    m_graphicsScene->addPixmap(QPixmap::fromImage(qimg));
+    ui->textBrowser->append("Nick GPU method3 binarized image opened in the visualizer");
+    ui->textBrowser->append("ready \n \n");
 }
 
 void MainWindow::onNickCPUClicked()

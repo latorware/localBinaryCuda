@@ -19,6 +19,8 @@
 
 //extern "C" void wrapper(QTextBrowser * outputDisplay);
 extern "C" string NICKGPUMethod1(const float* grayscaledImage, int tamanyFinestra, float k, int width, int height, QTextBrowser * outputDisplay, string fileOUTGPUMETHOD1NICK);
+extern "C" string NICKGPUMethod2(const float* grayscaledImage, int tamanyFinestra, float k, int width, int height, QTextBrowser * outputDisplay, string fileOUTGPUMETHOD2NICK);
+extern "C" string NICKGPUMethod3(const float* grayscaledImage, int tamanyFinestra, float k, int width, int height, QTextBrowser * outputDisplay, string fileOUTGPUMETHOD3NICK);
 
 
 
@@ -256,7 +258,7 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 
 string processor::NICKBinaritzationGPU1(int tamanyFinestra, float k)
 {
-	outputDisplay->append("NICK GPU METHOD1 LOCAL BINARITZATION...");
+	outputDisplay->append("NICK GPU METHOD1 LOCAL BINARITZATION (only global memory, transactions between CPU-GPU with pinned memory)...");
 	outputDisplay->append(QString::fromStdString(string(std::format("windowSize = {} x {}", tamanyFinestra, tamanyFinestra))));
 	outputDisplay->append(QString::fromStdString(string(std::format("k = {}", k))));
 	outputDisplay->append("ALLOCATING SPACE FOR GRAYSCALED IMAGE ON CPU...");
@@ -290,11 +292,63 @@ string processor::NICKBinaritzationGPU1(int tamanyFinestra, float k)
 
 string processor::NICKBinaritzationGPU2(int tamanyFinestra, float k)
 {
-	return "a";
+	outputDisplay->append("NICK GPU METHOD2 LOCAL BINARITZATION (shared and global memory, transactions between CPU-GPU with pinned memory)...");
+	outputDisplay->append(QString::fromStdString(string(std::format("windowSize = {} x {}", tamanyFinestra, tamanyFinestra))));
+	outputDisplay->append(QString::fromStdString(string(std::format("k = {}", k))));
+	outputDisplay->append("ALLOCATING SPACE FOR GRAYSCALED IMAGE ON CPU...");
+	begin = chrono::steady_clock::now();
+	float* imageOUT = (float*)malloc(width * height * sizeof(float));
+	//char* imageFinalOUT = (char*)malloc(width * height * sizeof(char));
+
+
+	end = chrono::steady_clock::now();
+	outputDisplay->append(QString::fromStdString(string(std::format("ALLOCATED SPACE FOR GRAYSCALED IMAGE ON CPU IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
+
+	outputDisplay->append("CONVERTING TO GRAYSCALE (CPU)...");
+	begin = chrono::steady_clock::now();
+	for (int i = 0; i < width * height; i++) {
+		//imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]))/(float)255);
+		imageOUT[i] = (int)((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2])));
+		//cout << imageOUT[i] << endl; 
+	}
+	end = chrono::steady_clock::now();
+	outputDisplay->append(QString::fromStdString(string(std::format("CONVERTED TO GRAYSCALE (CPU) IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
+
+
+	outputDisplay->append("NOW DOING GPU STUFF...");
+	string a_retornar = NICKGPUMethod2(imageOUT, tamanyFinestra, k, width, height, outputDisplay, fileOUTGPUMETHOD2NICK);
+	free(imageOUT);
+	return a_retornar;
 }
 
 
 string processor::NICKBinaritzationGPU3(int tamanyFinestra, float k)
 {
-	return "a"; 
+	outputDisplay->append("NICK GPU METHOD3 LOCAL BINARITZATION (shared and global memory, transactions between CPU-GPU with pinned memory)...");
+	outputDisplay->append(QString::fromStdString(string(std::format("windowSize = {} x {}", tamanyFinestra, tamanyFinestra))));
+	outputDisplay->append(QString::fromStdString(string(std::format("k = {}", k))));
+	outputDisplay->append("ALLOCATING SPACE FOR GRAYSCALED IMAGE ON CPU...");
+	begin = chrono::steady_clock::now();
+	float* imageOUT = (float*)malloc(width * height * sizeof(float));
+	//char* imageFinalOUT = (char*)malloc(width * height * sizeof(char));
+
+
+	end = chrono::steady_clock::now();
+	outputDisplay->append(QString::fromStdString(string(std::format("ALLOCATED SPACE FOR GRAYSCALED IMAGE ON CPU IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
+
+	outputDisplay->append("CONVERTING TO GRAYSCALE (CPU)...");
+	begin = chrono::steady_clock::now();
+	for (int i = 0; i < width * height; i++) {
+		//imageOUT[i] = ((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2]))/(float)255);
+		imageOUT[i] = (int)((((float)0.2989 * (float)image[i * 3] + (float)0.5870 * (float)image[i * 3 + 1] + (float)0.1140 * (float)image[i * 3 + 2])));
+		//cout << imageOUT[i] << endl; 
+	}
+	end = chrono::steady_clock::now();
+	outputDisplay->append(QString::fromStdString(string(std::format("CONVERTED TO GRAYSCALE (CPU) IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
+
+
+	outputDisplay->append("NOW DOING GPU STUFF...");
+	string a_retornar = NICKGPUMethod3(imageOUT, tamanyFinestra, k, width, height, outputDisplay, fileOUTGPUMETHOD3NICK);
+	free(imageOUT);
+	return a_retornar;
 }
