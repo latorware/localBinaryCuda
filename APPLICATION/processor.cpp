@@ -250,6 +250,7 @@ string processor::NICKBinaritzationCPU(int tamanyFinestra, float k)
 	outputDisplay->append(QString::fromStdString(string(std::format("IMAGE WRITTEN IN = {} [seconds]", (chrono::duration_cast<chrono::microseconds>(end - begin).count()) / 1000000.0))));
 	outputDisplay->append(QString::fromStdString(string(std::format("Nick cpu locally Binarized image saved in: {}", fileOUTCPUNICK))));
 	free(imageOUT);
+	free(imageFinalOUT); 
 	return fileOUTCPUNICK;
 }
 

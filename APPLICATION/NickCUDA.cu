@@ -14,7 +14,7 @@ using namespace std;
 #include <device_launch_parameters.h>
 
 
-#define BLOCKSIZE 32 //32x32 = 1024 (max threads per block)
+#define BLOCKSIZE 16 //32x32 = 1024 (max threads per block)
 
 //max image size: 10.000 x 10.000 pixels
 //__constant__ float GrayscaledImageConstant[10000 * 10000];

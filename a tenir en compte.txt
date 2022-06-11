@@ -1,3 +1,6 @@
 explicar el tdr timeout. 
 
 Slider 512 1024 threads block
+
+Global: temps constants. 
+Shared: temps varien. 
