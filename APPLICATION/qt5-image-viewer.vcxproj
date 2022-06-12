@@ -143,6 +143,7 @@
       <TargetMachinePlatform>64</TargetMachinePlatform>
       <Include>$(CUDA_PATH)\include;$(CudaToolkitIncludeDir);%(Include)</Include>
       <FastMath>true</FastMath>
+      <CodeGeneration>compute_52,sm_52</CodeGeneration>
     </CudaCompile>
     <CudaLink>
       <AdditionalLibraryDirectories>$(CudaToolkitLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -240,7 +241,6 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="NickCUDA.cu" />
-    <CudaCompile Include="NickCUDAKERNEL.cu" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="requirements.txt" />

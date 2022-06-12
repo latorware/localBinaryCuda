@@ -1,0 +1,2 @@
+Per a consultar els requisits i instruccions, veure l'informe pdf del projecte 
+els apartats Opcions de compilacio i requisits i instruccions de compilació
