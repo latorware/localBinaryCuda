@@ -1,6 +1,6 @@
 # localBinaryCuda
 
-Implementation of the Nick binaritzation algorithm, with support for hardware-acceleration in Nvidia GPUs that support CUDA. The app has a graphical interface built with the Qt framework for C++. 
+Implementation of the Nick binarization algorithm, with support for hardware-acceleration in Nvidia GPUs that support CUDA. The app has a graphical interface built with the Qt framework for C++. 
 
 #### Project for the TGA assigment (Graphic Cards and Accelerators), Computer Science, UPC (BarcelonaTech University)
 
