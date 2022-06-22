@@ -9,4 +9,4 @@ Requirements:
     - CUDA 11.6 or superior. 
     
 
-### **Autors**: Oscar Daniel Sans, David Latorre
+### **Autors**: David Latorre
